@@ -1,10 +1,19 @@
 @echo off
-title SolSafe - Heat Safety & Microclimate Cool-Routing Server
-echo =====================================================================
-echo  SolSafe: Real-World Heat Safety & Cool-Route Orchestration System
-echo =====================================================================
+title SolSafe - Full Stack Java 21 Heat Safety Server
+echo ===========================================================================
+echo   SolSafe: Heat-Safe Delivery Routing ^& Rider Biometric Digital Twin
+echo   Full Stack Java Development (JDK 21 / Spring Boot 3.3 Architecture)
+echo ===========================================================================
 echo.
-echo [1/2] Launching SolSafe FastAPI server on port 8050...
-start "" http://127.0.0.1:8050
-python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8050 --reload
-pause
+
+where mvn >nul 2>nul
+if %ERRORLEVEL% EQU 0 (
+    echo [INFO] Maven detected. Starting Spring Boot Backend on port 8050...
+    cd backend
+    mvn spring-boot:run
+) else (
+    echo [INFO] Compiling and starting JDK 21 Virtual-Thread Server on port 8050...
+    if not exist "backend\target\classes" mkdir "backend\target\classes"
+    javac -d "backend\target\classes" "backend\src\main\java\com\solsafe\heatsafety\server\StandaloneJavaServer.java"
+    java -cp "backend\target\classes" com.solsafe.heatsafety.server.StandaloneJavaServer
+)

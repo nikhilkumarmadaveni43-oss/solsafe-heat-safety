@@ -1,119 +1,59 @@
-# SolSafe (CoolRoute AI) — Microclimate Heat Shield & Cool-Routing Engine
+# SolSafe (HeatSafe Route) — Full Stack Java Development Project
+### Thermal-Aware Delivery Navigation & Rider Biometric Digital Twin Platform
 
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
-[![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13-3776ab.svg?logo=python)](https://python.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![WBGT: ISO 7243](https://img.shields.io/badge/Physics-ISO%207243%20WBGT-ff5722.svg)](#)
-
-> **"A smart microclimate map and orchestration API for delivery apps that stops workers from getting heatstroke."**
-
----
-
-## 🌟 The Problem Solved
-
-Standard mapping systems (e.g. Google Maps, OpenStreetMap) only calculate the fastest route based on travel duration or distance. During extreme heatwaves (42°C–48°C in dense cities like New Delhi, Phoenix, or Madrid):
-* Riders are routed onto **unshaded 6-lane asphalt expressways**.
-* Ground thermal radiation from black tar asphalt and direct solar irradiance elevate the local **Wet-Bulb Globe Temperature (WBGT) to a lethal 49°C**.
-* Gig delivery riders experience elevated cardiovascular strain, critical core body temperatures ($> 38.5^\circ\text{C}$), dehydration, and risk of fatal heatstroke.
-
-**SolSafe** is an intelligent microclimate pathfinder and orchestration engine that:
-1. Calculates hyper-local **WBGT** using satellite Land Surface Temperature (LST), tree canopy NDVI, and solar radiation physics.
-2. Directs riders through **tree-shaded corridors and urban canyons** (-6.6°C WBGT cooler with ground heat reduction of over 14°C) for just ~1.8 minutes extra travel.
-3. Automatically triggers **heat-break pauses** and routes riders to the nearest air-conditioned **Cool Oasis** before physiological danger occurs.
+[![Live Deployment](https://img.shields.io/badge/Live_Deployment-GitHub_Pages-10b981?style=for-the-badge)](https://nikhilkumarmadaveni43-oss.github.io/solsafe-heat-safety/)
+[![Java 21](https://img.shields.io/badge/Java-21_LTS-ed8b00?style=for-the-badge&logo=openjdk&logoColor=white)](https://github.com/nikhilkumarmadaveni43-oss/solsafe-heat-safety/tree/main/backend)
+[![Spring Boot 3.3](https://img.shields.io/badge/Spring_Boot-3.3.4-6db33f?style=for-the-badge&logo=springboot&logoColor=white)](https://github.com/nikhilkumarmadaveni43-oss/solsafe-heat-safety/tree/main/backend)
+[![Frontend](https://img.shields.io/badge/Frontend-HTML5_%7C_CSS3_%7C_JS_%7C_Leaflet-38bdf8?style=for-the-badge)](https://github.com/nikhilkumarmadaveni43-oss/solsafe-heat-safety/tree/main/frontend)
 
 ---
 
-## 🔬 Scientific Foundations
-
-### 1. ISO 7243 Wet-Bulb Globe Temperature (WBGT)
-$$\text{WBGT}_{\text{outdoor}} = 0.7 T_{\text{w}} + 0.2 T_{\text{g}} + 0.1 T_{\text{a}}$$
-* $T_{\text{w}}$: Natural Wet-Bulb temperature (derived via the Stull atmospheric formulation).
-* $T_{\text{g}}$: Black Globe temperature (captures direct solar radiation flux, wind convection, and reflected asphalt radiant heat).
-* $T_{\text{a}}$: Ambient dry-bulb temperature.
-
-### 2. Multi-Objective Cool-Path Cost Function
-For each street edge $e$, the traversal cost is weighted by microclimatic thermal penalty:
-$$\text{Cost}(e) = \text{Time}(e) \times \left(1.0 + w_{\text{heat}} \cdot \max\left(0, \frac{\text{WBGT}(e) - 27.5}{6.0}\right)^{2.2} - w_{\text{shade}} \cdot \text{CanopyFactor}(e)\right)$$
-
-### 3. Moran Physiological Strain Index (PSI)
-$$PSI = 5 \cdot \left(\frac{T_{\text{core}} - T_{\text{core},0}}{39.5 - T_{\text{core},0}}\right) + 5 \cdot \left(\frac{\text{HR} - \text{HR}_0}{180 - \text{HR}_0}\right)$$
-* Scale $0$ (No strain) to $10$ (Heatstroke threshold).
+## 🔗 Quick Project Links
+- **🌐 Final Project Deployment Link (Live Web & Mobile App):** [https://nikhilkumarmadaveni43-oss.github.io/solsafe-heat-safety/](https://nikhilkumarmadaveni43-oss.github.io/solsafe-heat-safety/)
+- **🎨 Frontend Source Code (GitHub):** [https://github.com/nikhilkumarmadaveni43-oss/solsafe-heat-safety/tree/main/frontend](https://github.com/nikhilkumarmadaveni43-oss/solsafe-heat-safety/tree/main/frontend)
+- **⚙️ Backend Source Code — Java Spring Boot (GitHub):** [https://github.com/nikhilkumarmadaveni43-oss/solsafe-heat-safety/tree/main/backend](https://github.com/nikhilkumarmadaveni43-oss/solsafe-heat-safety/tree/main/backend)
 
 ---
 
-## 🚀 Key Features
+## 📌 Project Overview
+**SolSafe (HeatSafe Route)** is a **Full Stack Java Web Application** designed to protect last-mile gig delivery riders (Swiggy, Zomato, Zepto, Blinkit) from severe urban heat stress and heatstroke during peak Indian summer heatwaves.
 
-* **Dual Route Simulation**: Real-time side-by-side comparison between the standard highway route (49°C WBGT) and SolSafe Cool Route (42°C WBGT, 82% shade).
-* **Live Animated Rider (Rahul on Bike)**: Smooth interpolation along coordinates with custom SVG bike marker, rotational heading, and dynamic thermal aura (fiery red vs emerald cyan).
-* **Satellite Thermal Heatmap**: Simulated Google Earth Engine / Landsat-8 Land Surface Temperature and Sentinel-2 NDVI canopy raster overlays.
-* **Biometric & Thermal HUD**: Live radial WBGT gauge, core body temp ($T_{\text{core}}$), animated ECG heart rate oscilloscope waveform, hydration percentage, and 90-minute sun exposure dial.
-* **Automated Partner Orchestration Modal**: Real-time simulation of Zomato/Swiggy dispatch API pausing incoming orders for 15 minutes, preserving hourly pay stipend, and rerouting to the nearest Cool Oasis.
-* **Zero External Audio Dependencies**: Futuristic UI sounds, thermal warning beeps, and cooling oasis chimes generated natively via Web Audio API.
+Standard GPS navigation apps optimize strictly for the shortest travel time, frequently routing two-wheeler riders across unshaded asphalt flyovers and Urban Heat Islands (UHI) where road surface temperatures exceed **60°C**. **SolSafe** solves this by combining a **Java 21 / Spring Boot Microclimate & Graph Routing Backend** with an interactive **Leaflet.js Geospatial Telemetry Frontend**.
 
 ---
 
-## 💻 Tech Stack
+## 🏗️ Full Stack Java Architecture
 
-* **Backend**: Python 3.13, FastAPI, NetworkX (Graph Pathfinding), Pydantic, Uvicorn.
-* **Frontend**: Vanilla HTML5, Modern CSS (Glassmorphism, Keyframe Animations), Leaflet JS, CartoDB DarkMatter tiles, Web Audio API synthesizer.
-* **Testing**: Pytest with automated physics and pathfinding verification.
+### 1. Backend Tier (`backend/` — Java 21 LTS & Spring Boot 3.3)
+- **[`SolSafeApplication.java`](backend/src/main/java/com/solsafe/heatsafety/SolSafeApplication.java)**: Spring Boot 3.3 application entry point.
+- **[`HeatSafetyController.java`](backend/src/main/java/com/solsafe/heatsafety/controller/HeatSafetyController.java)**: RESTful Controller (`@RestController`) exposing `/api/network`, `/api/routes`, `/api/routes/from_gps`, `/api/oases`, `/api/satellite_layer`, `/api/fleet`, `/api/orders/generate`, and `/api/worker/tick`.
+- **[`MicroclimateService.java`](backend/src/main/java/com/solsafe/heatsafety/service/MicroclimateService.java)**: Implements **ISO 7243 Outdoor WBGT** ($0.7 T_w + 0.2 T_g + 0.1 T_a$), **Stull (2011) Wet-Bulb Temperature**, **Liljegren Black Globe Temperature**, and solar canyon shadow geometry.
+- **[`RoutingService.java`](backend/src/main/java/com/solsafe/heatsafety/service/RoutingService.java)**: Custom **Thermal-Aware Dijkstra Graph Algorithm** comparing the *Fastest Route* ($\alpha = 0$) against the *SolSafe Cool Bike Route* ($\alpha \in [0, 1]$).
+- **[`RiderFleetService.java`](backend/src/main/java/com/solsafe/heatsafety/service/RiderFleetService.java)**: Implements the **Moran Physiological Strain Index (PSI, 0–10)** Rider Digital Twin tracking Core Body Temperature ($T_{core}$), Heart Rate (BPM), Sweat Dehydration Deficit, and 5-Rider Fleet order dispatch.
+- **[`OasisLocatorService.java`](backend/src/main/java/com/solsafe/heatsafety/service/OasisLocatorService.java)**: **Haversine Great-Circle Spatial Locator** ranking nearby AC/Water/Shade Cool Oases for emergency heat triage.
+- **[`StandaloneJavaServer.java`](backend/src/main/java/com/solsafe/heatsafety/server/StandaloneJavaServer.java)**: Zero-dependency JDK 21 Virtual-Thread HTTP Server allowing instant execution via `javac`/`java` even without Maven installed.
+
+### 2. Frontend Tier (`frontend/` — HTML5, CSS3, ES6 JavaScript, Leaflet.js)
+- **Interactive Thermal Map (`js/map_renderer.js`)**: Real-time street-level WBGT color-coded segments, Satellite LST Heat Island overlays, and dual route polylines.
+- **Live Rider Animation & Voice Dispatch (`js/rider_animation.js`, `js/audio_fx.js`)**: Animated bike marker with live WBGT badge, Web Speech API turn-by-turn thermal voice alerts, and Web Audio synthesized telemetry cues.
+- **Biometric HUD & Mobile App UI (`js/hud_controller.js`, `css/style.css`)**: Responsive glassmorphic dashboard with a dedicated 4-tab mobile bottom navigation bar (`Map`, `Route`, `Vitals`, `Fleet`) and quick-action dock.
+- **Always-On Edge Failover (`js/api_client.js`)**: Connects to the Java Spring Boot REST API when running locally or on cloud hosts, and seamlessly falls back to the embedded client-side engine on GitHub Pages so the live link runs 24/7 with zero downtime.
 
 ---
 
-## ⚡ Quick Start
+## 🚀 How to Run Locally (Java 21)
 
-### 1. Requirements
-Ensure Python 3.11+ is installed. Dependencies:
+### Option A: Quick Start (`run.bat` or Pure JDK 21)
 ```bash
-pip install -r requirements.txt
+# Compile and launch the JDK 21 Virtual-Thread HTTP Server on port 8050
+javac -d backend/target/classes backend/src/main/java/com/solsafe/heatsafety/server/StandaloneJavaServer.java
+java -cp backend/target/classes com.solsafe.heatsafety.server.StandaloneJavaServer
 ```
 
-### 2. Launch the Application
-Double-click `run.bat` on Windows, or run in terminal:
+### Option B: Run with Apache Maven & Spring Boot
 ```bash
-python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8050 --reload
-```
-Then open your browser at:
-```
-http://127.0.0.1:8050
+cd backend
+mvn spring-boot:run
 ```
 
-### 3. Run Automated Tests
-```bash
-python -m pytest backend/tests/test_microclimate.py -v
-```
-
----
-
-## 📦 Directory Structure
-
-```
-heat safety 2/
-├── backend/
-│   ├── app/
-│   │   ├── main.py                    # FastAPI server & WebSocket endpoints
-│   │   ├── microclimate_engine.py      # ISO 7243 WBGT & Stull physical model
-│   │   ├── routing_engine.py           # NetworkX heat-penalized A* router
-│   │   ├── worker_state_machine.py     # Moran PSI & biothermal strain tracker
-│   │   ├── oasis_locator.py            # Nearest AC shelter & Water ATM finder
-│   │   ├── telemetry_stream.py         # Kafka-style GPS packet streamer
-│   │   └── data/
-│   │       ├── city_network.json       # Central Delhi road network with canopy data
-│   │       └── cool_oases.json         # Designated cooling shelters & partner hubs
-│   └── tests/
-│       └── test_microclimate.py        # Automated test suite (5/5 passing)
-├── frontend/
-│   ├── index.html                     # Responsive glassmorphic dashboard
-│   ├── css/
-│   │   └── style.css                  # Cyber-tactical theme & keyframe animations
-│   └── js/
-│       ├── audio_fx.js                # Web Audio API synthesizer
-│       ├── api_client.js              # REST API client
-│       ├── hud_controller.js          # Live gauges & biometrics HUD
-│       ├── map_renderer.js            # Leaflet map, thermal raster & routes
-│       ├── rider_animation.js         # Animated bike movement & thermal aura
-│       └── app.js                     # Main orchestrator & UI bindings
-├── requirements.txt
-├── run.bat                            # 1-click Windows launcher
-└── README.md
-```
+Then open **`http://localhost:8050`** in Google Chrome or any mobile browser.

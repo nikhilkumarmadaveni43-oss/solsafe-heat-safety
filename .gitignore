@@ -1,9 +1,19 @@
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.venv/
-venv/
-env/
+# Java & Maven build artifacts
+target/
+build/
+out/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# IDE & OS files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
 .DS_Store
 Thumbs.db

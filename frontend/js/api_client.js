@@ -1,6 +1,6 @@
 /**
  * SolSafe REST & Always-On Autonomous Edge API Client
- * Seamlessly connects to the FastAPI backend when available, and automatically
+ * Seamlessly connects to the Java Spring Boot REST API backend when available, and automatically
  * switches to the built-in Client-Side Microclimate & Routing Engine on GitHub Pages,
  * static web hosts, or offline mobile browsers so APIs are ALWAYS ON 24/7.
  */
