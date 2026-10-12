@@ -1,0 +1,57 @@
+[
+  {
+    "id": "OASIS_1",
+    "name": "Central Park Metro Concourse (AC Zone)",
+    "type": "Subway Cooling Hub",
+    "lat": 28.6328,
+    "lon": 77.2195,
+    "facilities": ["Air Conditioned", "Free RO Chilled Water", "Resting Benches", "First Aid"],
+    "capacity": 50,
+    "current_occupancy": 12,
+    "indoor_temp_c": 24.5
+  },
+  {
+    "id": "OASIS_2",
+    "name": "Chaayos Heat Relief Partner Lounge",
+    "type": "Partner Restaurant Hub",
+    "lat": 28.6295,
+    "lon": 77.2210,
+    "facilities": ["Free Water ATM", "AC Rider Lounge", "Phone Charging", "Electrolytes (ORS)"],
+    "capacity": 20,
+    "current_occupancy": 6,
+    "indoor_temp_c": 23.0
+  },
+  {
+    "id": "OASIS_3",
+    "name": "Janpath Shaded Public Grove & Misting Station",
+    "type": "High-Canopy Eco Shelter",
+    "lat": 28.6272,
+    "lon": 77.2192,
+    "facilities": ["Tree Canopy Shade", "High-Pressure Water Misters", "Drinking Water Kiosk"],
+    "capacity": 35,
+    "current_occupancy": 14,
+    "indoor_temp_c": 31.0
+  },
+  {
+    "id": "OASIS_4",
+    "name": "Barakhamba Zomato/Swiggy Rider Oasis",
+    "type": "Dedicated Delivery Hub",
+    "lat": 28.6320,
+    "lon": 77.2250,
+    "facilities": ["Evaporative Desert Coolers", "Cold Water Dispenser", "Electrolyte Packets", "Shaded Parking"],
+    "capacity": 40,
+    "current_occupancy": 18,
+    "indoor_temp_c": 26.5
+  },
+  {
+    "id": "OASIS_5",
+    "name": "Windsor Place Heritage Neem Canopy Shelter",
+    "type": "Natural Microclimate Oasis",
+    "lat": 28.6215,
+    "lon": 77.2182,
+    "facilities": ["100% Tree Canopy", "Public Water Post", "Seating"],
+    "capacity": 25,
+    "current_occupancy": 4,
+    "indoor_temp_c": 32.2
+  }
+]

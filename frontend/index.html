@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#070a12" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.json" />
+  <title>SolSafe — Real-World Heat Safety & Cool-Route Orchestration</title>
+  
+  <!-- Leaflet CSS for Map rendering -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <!-- Google Fonts: Inter and JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="dark-theme">
+  <!-- Top App Navigation Bar -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-group">
+        <div class="logo-shield">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M12 8v8"/>
+            <path d="M8 12h8"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="app-title">SolSafe <span class="badge-beta">PRO</span></h1>
+          <p class="app-subtitle">Microclimate Cool-Routing & Gig Worker Heat Shield</p>
+        </div>
+      </div>
+      <div class="city-selector-wrap">
+        <span class="city-dot"></span>
+        <select id="selectCity" class="city-select">
+          <option value="hyderabad" selected>Hyderabad (Cyberabad & Hitec City)</option>
+          <option value="delhi">Delhi (Central Connaught Core)</option>
+        </select>
+        <span class="satellite-badge" id="citySatBadge">⚡ APIs: ALWAYS-ON • 🛰️ LST Active</span>
+      </div>
+    </div>
+
+    <!-- Weather & Simulation Control Sliders -->
+    <div class="header-controls">
+      <div class="ctrl-card">
+        <div class="ctrl-label">
+          <span>Ambient Temp</span>
+          <strong id="valAmbientTemp">44.0°C</strong>
+        </div>
+        <input type="range" id="sliderTemp" min="36" max="48" step="0.5" value="44.0" />
+      </div>
+
+      <div class="ctrl-card">
+        <div class="ctrl-label">
+          <span>Time of Day</span>
+          <strong id="valTimeOfDay">02:30 PM</strong>
+        </div>
+        <input type="range" id="sliderTime" min="10" max="17" step="0.5" value="14.5" />
+      </div>
+
+      <div class="audio-ctrl">
+        <button id="btnAudioToggle" class="btn-icon" title="Toggle Sound FX">
+          <span id="audioIcon">🔊</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid Workspace -->
+  <main class="main-container">
+    <!-- Left Sidebar: Route Analysis & Controls -->
+    <aside class="sidebar-left">
+      <!-- Live GPS & Bike Shield Card -->
+      <div class="card live-gps-card">
+        <div class="card-title">
+          <span>Live Bike Telemetry</span>
+          <span class="bike-shield-pill">🛵 Bike Shield Active</span>
+        </div>
+        <button id="btnLiveGps" class="btn btn-gps">
+          <span class="gps-pulse-icon">📍</span>
+          <span>Locate Me & Route to Oasis</span>
+        </button>
+        <p class="gps-hint" id="gpsHintText">Live GPS in Hyderabad: Locates bike & nearest Oasis</p>
+      </div>
+
+      <!-- Source to Destination Order Dispatch Card -->
+      <div class="card order-dispatch-card">
+        <div class="card-title">
+          <span>Order Dispatch Route</span>
+          <span class="info-pill" id="orderIdBadge">ORD #54921</span>
+        </div>
+        <div class="route-select-row">
+          <div class="select-field">
+            <label class="field-lbl">🟢 Pickup (Source)</label>
+            <select id="selectOrigin" class="field-select"></select>
+          </div>
+          <div class="select-field mt-2">
+            <label class="field-lbl">🔴 Delivery Drop (Dest)</label>
+            <select id="selectDest" class="field-select"></select>
+          </div>
+        </div>
+
+        <button id="btnNewOrder" class="btn btn-order-gen mt-3">
+          <span class="btn-icon-spin">🔀</span>
+          <span>New Order & Switch Rider</span>
+        </button>
+      </div>
+
+      <!-- Route Mode Selector -->
+      <div class="card route-selector-card">
+        <div class="card-title">
+          <span>Bike Navigation Strategy</span>
+          <span class="info-pill" title="Compares Standard Fast vs SolSafe Microclimate Route">A/B Path</span>
+        </div>
+        <div class="mode-toggles">
+          <button id="btnModeCool" class="mode-btn active" data-mode="cool">
+            <div class="mode-icon emerald-glow">🌿</div>
+            <div class="mode-info">
+              <span class="mode-heading">SolSafe Bike Cool Route</span>
+              <span class="mode-sub">Canopy Shaded (-7.5°C WBGT)</span>
+            </div>
+            <span class="mode-tag tag-safe">Safe</span>
+          </button>
+          
+          <button id="btnModeStandard" class="mode-btn" data-mode="standard">
+            <div class="mode-icon crimson-glow">🔥</div>
+            <div class="mode-info">
+              <span class="mode-heading">Standard Fastest Route</span>
+              <span class="mode-sub">Flyover & Tar Highway (Lethal 49°C)</span>
+            </div>
+            <span class="mode-tag tag-danger">Old Way</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Comparative Metric Matrix -->
+      <div class="card metrics-card">
+        <div class="card-title">
+          <span>Microclimate Telemetry Comparison</span>
+        </div>
+        <div class="comparison-grid">
+          <div class="metric-row">
+            <span class="m-label">Trip Duration</span>
+            <div class="m-vals">
+              <span class="val-cool" id="coolTime">13.8 min</span>
+              <span class="val-sep">vs</span>
+              <span class="val-fast" id="fastTime">12.0 min</span>
+            </div>
+          </div>
+          <div class="metric-row">
+            <span class="m-label">Avg WBGT ("Feels Like")</span>
+            <div class="m-vals">
+              <span class="val-cool" id="coolWBGT">33.1°C</span>
+              <span class="val-sep">vs</span>
+              <span class="val-fast" id="fastWBGT">39.7°C</span>
+            </div>
+          </div>
+          <div class="metric-row">
+            <span class="m-label">Tree Canopy Shade</span>
+            <div class="m-vals">
+              <span class="val-cool" id="coolShade">82%</span>
+              <span class="val-sep">vs</span>
+              <span class="val-fast" id="fastShade">8%</span>
+            </div>
+          </div>
+          <div class="metric-row">
+            <span class="m-label">Asphalt Road Surface Temp</span>
+            <div class="m-vals">
+              <span class="val-cool" id="coolSurface">38.4°C</span>
+              <span class="val-sep">vs</span>
+              <span class="val-fast" id="fastSurface">52.8°C</span>
+            </div>
+          </div>
+          <div class="metric-row">
+            <span class="m-label">Cumulative Heat Strain Dose</span>
+            <div class="m-vals">
+              <span class="val-cool" id="coolDose">0.32</span>
+              <span class="val-sep">vs</span>
+              <span class="val-fast" id="fastDose">0.76</span>
+            </div>
+          </div>
+        </div>
+        <div class="summary-banner" id="comparisonSummary">
+          🍃 SolSafe Cool Route lowers thermal strain by 58% for only +1.8 minutes extra ride.
+        </div>
+      </div>
+
+      <!-- Trip Simulation Controls -->
+      <div class="card sim-controls-card">
+        <div class="card-title">
+          <span>Live Rider Simulation</span>
+          <span class="live-dot" id="simLiveDot"></span>
+        </div>
+        <div class="sim-btn-row">
+          <button id="btnPlayPause" class="btn btn-primary">
+            <span id="playIcon">▶</span>
+            <span id="playText">Start Delivery</span>
+          </button>
+          <button id="btnResetTrip" class="btn btn-secondary">↺ Reset</button>
+        </div>
+
+        <div class="speed-selector">
+          <span>Sim Speed:</span>
+          <div class="btn-group">
+            <button class="btn-chip active" data-speed="1">1x</button>
+            <button class="btn-chip" data-speed="2">2x</button>
+            <button class="btn-chip" data-speed="5">5x</button>
+          </div>
+        </div>
+
+        <!-- Heat Break Trigger Button -->
+        <button id="btnTriggerBreak" class="btn btn-danger-glow">
+          🚨 Fast-Track 90-Min Heat Break
+        </button>
+        <p class="btn-subtext">Triggers automated Zomato dispatch pause & Oasis reroute.</p>
+      </div>
+
+      <!-- Map Layers Toggle -->
+      <div class="card layer-toggles-card">
+        <div class="card-title"><span>Map Layers</span></div>
+        <div class="layer-checkbox-group">
+          <label class="toggle-switch">
+            <input type="checkbox" id="chkHeatLayer" checked />
+            <span class="slider"></span>
+            <span class="toggle-text">Satellite Thermal Heat Island Overlay</span>
+          </label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="chkCanopyLayer" checked />
+            <span class="slider"></span>
+            <span class="toggle-text">Tree Canopy Green Corridors</span>
+          </label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="chkOasisLayer" checked />
+            <span class="slider"></span>
+            <span class="toggle-text">Cool Oases & Water ATM Shelters</span>
+          </label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="chkThermalMarks" checked />
+            <span class="slider"></span>
+            <span class="toggle-text">Area Thermal Badges (Hotspots & Shade)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Base Map Imagery Style -->
+      <div class="card map-style-card">
+        <div class="card-title">
+          <span>Map Background View</span>
+          <span class="info-pill">Hyderabad Earth</span>
+        </div>
+        <div class="map-style-btn-group">
+          <button class="style-btn active" data-style="satellite">🛰️ Satellite</button>
+          <button class="style-btn" data-style="dark">🌃 Dark</button>
+          <button class="style-btn" data-style="osm">🗺️ Streets</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center: Interactive Animated Map -->
+    <section class="map-section">
+      <div id="map" class="map-canvas"></div>
+      
+      <!-- Real-time Speed & Waypoint Overlay -->
+      <div class="map-telemetry-badge">
+        <div class="badge-item">
+          <span class="lbl">RIDER VELOCITY</span>
+          <span class="val" id="riderSpeed">26 km/h</span>
+        </div>
+        <div class="badge-divider"></div>
+        <div class="badge-item">
+          <span class="lbl">CURRENT CORRIDOR</span>
+          <span class="val highlight" id="currentStreet">Janpath Heritage Tree Avenue</span>
+        </div>
+        <div class="badge-divider"></div>
+        <div class="badge-item">
+          <span class="lbl">ASPHALT RADIATION</span>
+          <span class="val" id="currentSurfaceHeat">39.1°C</span>
+        </div>
+      </div>
+
+      <!-- Map Legend -->
+      <div class="map-legend">
+        <div class="legend-title">Thermal Exposure Legend</div>
+        <div class="legend-row">
+          <span class="legend-color cool-line"></span>
+          <span>SolSafe Cool Route (Shaded)</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-color hot-line"></span>
+          <span>Standard Route (High Heat Highway)</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-color oasis-pin"></span>
+          <span>Cool Oasis (AC & Free Water)</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-gradient"></span>
+          <div class="grad-labels">
+            <span>35°C (Canopy)</span>
+            <span>54°C (Asphalt UHI)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Quick-Action Dock on Map -->
+      <div class="mobile-map-quickbar" id="mobileMapQuickbar">
+        <button id="btnMobilePlay" class="m-quick-btn m-btn-emerald">▶ Start</button>
+        <button id="btnMobileNewOrder" class="m-quick-btn m-btn-cyan">🔀 New Order</button>
+        <button id="btnMobileRouteToggle" class="m-quick-btn m-btn-outline">🌿 Cool Route</button>
+        <button id="btnMobileGps" class="m-quick-btn m-btn-blue">📍 GPS</button>
+      </div>
+    </section>
+
+    <!-- Right Sidebar: Live Biometric & Thermal HUD -->
+    <aside class="sidebar-right">
+      <!-- Gig Rider Profile -->
+      <div class="card rider-profile-card">
+        <div class="card-title">
+          <span>Active Delivery Rider</span>
+          <select id="selectRider" class="rider-select-dropdown" title="Switch delivery partner"></select>
+        </div>
+        <div class="rider-header">
+          <div class="rider-avatar" id="riderAvatar">
+            <span class="avatar-letter" id="riderAvatarLetter">R</span>
+            <span class="rider-status-dot active" id="riderStatusDot"></span>
+          </div>
+          <div class="rider-info">
+            <h3 class="rider-name" id="riderName">Rahul Sharma</h3>
+            <span class="rider-id" id="riderIdDesc">Zomato Partner ID #104 • TVS Apache 160</span>
+          </div>
+        </div>
+        <div class="rider-tags">
+          <span class="badge-fleet" id="badgePlatformStatus">ACTIVE DELIVERING</span>
+          <span class="badge-vehicle" id="badgeVehicleType">🏍️ Motorcycle</span>
+          <span class="badge-rest" id="badgeRestCountdown" style="display: none;">Rest: 15m 00s</span>
+        </div>
+      </div>
+
+      <!-- OSHA WBGT Risk Meter -->
+      <div class="card gauge-card">
+        <div class="card-title">
+          <span>Microclimate WBGT Meter</span>
+          <span class="osha-tag" id="oshaFlagTag">High (Red Flag)</span>
+        </div>
+        <div class="wbgt-display">
+          <div class="wbgt-circle" id="wbgtCircle">
+            <span class="wbgt-num" id="hudWBGT">33.4</span>
+            <span class="wbgt-unit">°C WBGT</span>
+          </div>
+          <div class="wbgt-breakdown">
+            <div class="bd-row">
+              <span>Natural Wet-Bulb:</span>
+              <strong id="hudWetBulb">26.2°C</strong>
+            </div>
+            <div class="bd-row">
+              <span>Black Globe Temp:</span>
+              <strong id="hudGlobeTemp">42.8°C</strong>
+            </div>
+            <div class="bd-row">
+              <span>Work-Rest Advice:</span>
+              <strong id="hudWorkRest">40m Work / 20m Rest</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Biometric Vital Signs -->
+      <div class="card biometrics-card">
+        <div class="card-title">
+          <span>Biothermal Strain Metrics</span>
+          <span class="bio-live">● LIVE SENSORS</span>
+        </div>
+
+        <!-- Core Body Temperature -->
+        <div class="bio-row">
+          <div class="bio-meta">
+            <span class="bio-icon">🌡️</span>
+            <div>
+              <span class="bio-name">Core Body Temperature</span>
+              <span class="bio-sub">Critical Threshold: 38.5°C</span>
+            </div>
+          </div>
+          <span class="bio-val" id="valCoreTemp">37.2°C</span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-fill" id="barCoreTemp" style="width: 25%; background-color: #10b981;"></div>
+        </div>
+
+        <!-- Heart Rate & ECG Line -->
+        <div class="bio-row mt-3">
+          <div class="bio-meta">
+            <span class="bio-icon">💓</span>
+            <div>
+              <span class="bio-name">Heart Rate (Cardiac Strain)</span>
+              <span class="bio-sub">Cardiovascular Heat Load</span>
+            </div>
+          </div>
+          <span class="bio-val" id="valHeartRate">82 BPM</span>
+        </div>
+        <div class="ecg-container">
+          <svg class="ecg-svg" viewBox="0 0 300 30">
+            <polyline class="ecg-line" points="0,15 40,15 50,5 60,25 70,10 80,15 150,15 160,5 170,25 180,10 190,15 300,15" />
+          </svg>
+        </div>
+
+        <!-- Moran Physiological Strain Index (PSI) -->
+        <div class="bio-row mt-3">
+          <div class="bio-meta">
+            <span class="bio-icon">⚡</span>
+            <div>
+              <span class="bio-name">Physiological Strain (PSI)</span>
+              <span class="bio-sub" id="psiLabel">Normal / Safe</span>
+            </div>
+          </div>
+          <span class="bio-val" id="valPSI">2.4 / 10</span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-fill" id="barPSI" style="width: 24%; background-color: #10b981;"></div>
+        </div>
+
+        <!-- Hydration Level -->
+        <div class="bio-row mt-3">
+          <div class="bio-meta">
+            <span class="bio-icon">💧</span>
+            <div>
+              <span class="bio-name">Hydration Level</span>
+              <span class="bio-sub">Target: Drink 750ml/hr</span>
+            </div>
+          </div>
+          <span class="bio-val" id="valHydration">94%</span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-fill" id="barHydration" style="width: 94%; background-color: #38bdf8;"></div>
+        </div>
+      </div>
+
+      <!-- Sun Exposure & Heat Break Clock -->
+      <div class="card exposure-timer-card">
+        <div class="card-title">
+          <span>Continuous Sun Exposure</span>
+          <span class="exposure-cap">Max: 90 Mins</span>
+        </div>
+        <div class="exposure-body">
+          <div class="timer-dial">
+            <svg class="dial-svg" viewBox="0 0 100 100">
+              <circle class="dial-bg" cx="50" cy="50" r="42" />
+              <circle class="dial-meter" id="dialMeter" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264" />
+            </svg>
+            <div class="dial-inner">
+              <span class="dial-number" id="dialMins">18</span>
+              <span class="dial-unit">MINS</span>
+            </div>
+          </div>
+          <div class="timer-explanation">
+            <p>Direct UV & radiant asphalt exposure timer.</p>
+            <p class="highlight-text" id="breakWarningText">Safe margin: 72 mins remaining before mandatory rest pause.</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Mobile Bottom Navigation Bar (Phones & Tablets) -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <button class="m-nav-item active" data-tab="map">
+      <span class="m-nav-icon">🗺️</span>
+      <span class="m-nav-lbl">Live Map</span>
+    </button>
+    <button class="m-nav-item" data-tab="dispatch">
+      <span class="m-nav-icon">🛵</span>
+      <span class="m-nav-lbl">Dispatch & Route</span>
+    </button>
+    <button class="m-nav-item" data-tab="vitals">
+      <span class="m-nav-icon">🌡️</span>
+      <span class="m-nav-lbl">Rider & Vitals</span>
+    </button>
+  </nav>
+
+  <!-- Real-time Kafka Event Log Ticker -->
+  <footer class="app-footer">
+    <div class="kafka-header">
+      <span class="kafka-icon">⚡</span>
+      <span class="kafka-title">KAFKA TELEMETRY FEED (topic: rider-telemetry-v1)</span>
+    </div>
+    <div class="kafka-ticker-wrap">
+      <div class="kafka-ticker" id="kafkaTicker">
+        [SYS] Kafka Telemetry Broker initialized. Connected to 100,000 rider stream simulator. Listening for WBGT & GPS packets...
+      </div>
+    </div>
+  </footer>
+
+  <!-- Zomato Partner Orchestration Modal Dialog -->
+  <div class="modal-backdrop" id="modalOrchestration" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="zomato-branding">
+          <span class="brand-pill">ZOMATO ORCHESTRATION ENGINE</span>
+          <span class="alert-code">EVENT: DISPATCH_SAFETY_INTERVENTION</span>
+        </div>
+        <button class="modal-close" id="btnCloseModal">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-hero-icon">🚨</div>
+        <h2 class="modal-headline">Mandatory Heat Break Triggered</h2>
+        <p class="modal-desc">
+          Continuous solar radiant exposure reached the safety ceiling. To prevent heat exhaustion and heatstroke, delivery dispatch for <strong>Rahul Sharma</strong> has been automatically paused.
+        </p>
+
+        <div class="action-grid">
+          <div class="action-card">
+            <span class="act-icon">⏸️</span>
+            <strong>Dispatch Queue Paused</strong>
+            <p>15-minute cool down. No orders assigned.</p>
+          </div>
+          <div class="action-card highlight-card">
+            <span class="act-icon">🥤</span>
+            <strong id="modalOasisName">Chaayos AC Partner Lounge</strong>
+            <p id="modalOasisDist">220m away • Free RO Cold Water & ORS</p>
+          </div>
+          <div class="action-card">
+            <span class="act-icon">🛡️</span>
+            <strong>Guaranteed Stipend Active</strong>
+            <p>Hourly base pay is protected during break.</p>
+          </div>
+        </div>
+
+        <div class="modal-footer-btns">
+          <button id="btnProceedToOasis" class="btn btn-primary btn-large">
+            📍 Route Rahul to Cool Oasis Now
+          </button>
+          <button id="btnDismissModal" class="btn btn-secondary">
+            Acknowledge & Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- Application Scripts -->
+  <script src="js/audio_fx.js"></script>
+  <script src="js/api_client.js"></script>
+  <script src="js/hud_controller.js"></script>
+  <script src="js/map_renderer.js"></script>
+  <script src="js/rider_animation.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

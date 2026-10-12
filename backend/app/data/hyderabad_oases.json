@@ -1,0 +1,62 @@
+[
+  {
+    "id": "HYD_OASIS_1",
+    "city": "hyderabad",
+    "name": "Hitec City Metro Station (Underground AC Zone)",
+    "type": "Metro Subway Cooling Hub",
+    "lat": 17.4475,
+    "lon": 78.3785,
+    "facilities": ["Air Conditioned Concourse", "Free RO Chilled Water", "Resting Benches", "Mobile Charging", "First Aid"],
+    "capacity": 60,
+    "current_occupancy": 15,
+    "indoor_temp_c": 23.5
+  },
+  {
+    "id": "HYD_OASIS_2",
+    "city": "hyderabad",
+    "name": "Inorbit Mall AC Delivery Rider Lounge",
+    "type": "Partner Mall Heat Oasis",
+    "lat": 17.4358,
+    "lon": 78.3855,
+    "facilities": ["Free Water ATM", "AC Rider Rest Lounge", "Free ORS Electrolytes", "Dedicated Bike Shaded Parking"],
+    "capacity": 45,
+    "current_occupancy": 21,
+    "indoor_temp_c": 22.0
+  },
+  {
+    "id": "HYD_OASIS_3",
+    "city": "hyderabad",
+    "name": "Chai Point Madhapur Heat Relief Oasis",
+    "type": "Partner Food Hub",
+    "lat": 17.4442,
+    "lon": 78.3918,
+    "facilities": ["Chilled RO Water Dispenser", "Air Conditioned Seating", "Electrolyte Packets", "Washroom Access"],
+    "capacity": 25,
+    "current_occupancy": 8,
+    "indoor_temp_c": 24.0
+  },
+  {
+    "id": "HYD_OASIS_4",
+    "city": "hyderabad",
+    "name": "KBR National Park Neem Canopy Eco-Shelter",
+    "type": "Natural Microclimate Oasis",
+    "lat": 17.4265,
+    "lon": 78.4195,
+    "facilities": ["100% Tree Canopy Shade", "High-Pressure Water Misters", "Public Drinking Water Post", "Seated Pavilion"],
+    "capacity": 40,
+    "current_occupancy": 11,
+    "indoor_temp_c": 29.5
+  },
+  {
+    "id": "HYD_OASIS_5",
+    "city": "hyderabad",
+    "name": "T-Hub Phase 2 Gig Safety Hub",
+    "type": "Innovation Hub Worker Station",
+    "lat": 17.4395,
+    "lon": 78.3820,
+    "facilities": ["Evaporative Desert Coolers", "Cold Mineral Water", "Heatstroke Emergency Kit", "ORS Sachets"],
+    "capacity": 30,
+    "current_occupancy": 7,
+    "indoor_temp_c": 25.0
+  }
+]

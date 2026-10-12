@@ -1,0 +1,185 @@
+{
+  "city": "New Delhi - Central Urban Core",
+  "center": [28.6315, 77.2195],
+  "nodes": [
+    {"id": "N1", "name": "CP Radial 1 (Minto Bridge)", "lat": 28.6380, "lon": 77.2240},
+    {"id": "N2", "name": "Outer Circle East (Barakhamba Rd)", "lat": 28.6335, "lon": 77.2255},
+    {"id": "N3", "name": "Tolstoy Marg Junction", "lat": 28.6275, "lon": 77.2260},
+    {"id": "N4", "name": "Janpath Central Plaza", "lat": 28.6270, "lon": 77.2190},
+    {"id": "N5", "name": "Inner Circle South (Regal)", "lat": 28.6310, "lon": 77.2185},
+    {"id": "N6", "name": "Inner Circle North (Odeon)", "lat": 28.6345, "lon": 77.2190},
+    {"id": "N7", "name": "Outer Circle West (Baba Kharak Singh)", "lat": 28.6325, "lon": 77.2120},
+    {"id": "N8", "name": "Ashoka Road Green Canopy", "lat": 28.6240, "lon": 77.2140},
+    {"id": "N9", "name": "Windsor Place Roundabout", "lat": 28.6210, "lon": 77.2180},
+    {"id": "N10", "name": "Kasturba Gandhi Marg Crossing", "lat": 28.6250, "lon": 77.2235},
+    {"id": "N11", "name": "Mandi House Cultural Hub", "lat": 28.6260, "lon": 77.2330},
+    {"id": "N12", "name": "Barakhamba Highway Overpass", "lat": 28.6360, "lon": 77.2310}
+  ],
+  "edges": [
+    {
+      "id": "E1",
+      "u": "N1",
+      "v": "N12",
+      "name": "Barakhamba 6-Lane Concrete Expressway",
+      "distance_m": 850,
+      "speed_limit_kmh": 50,
+      "canopy_coverage": 0.05,
+      "is_asphalt_highway": true,
+      "urban_canyon_shadow": 0.05
+    },
+    {
+      "id": "E2",
+      "u": "N12",
+      "v": "N11",
+      "name": "Mandi House Arterial Highway",
+      "distance_m": 1150,
+      "speed_limit_kmh": 50,
+      "canopy_coverage": 0.08,
+      "is_asphalt_highway": true,
+      "urban_canyon_shadow": 0.10
+    },
+    {
+      "id": "E3",
+      "u": "N11",
+      "v": "N3",
+      "name": "Ferozeshah Road Open Corridor",
+      "distance_m": 800,
+      "speed_limit_kmh": 45,
+      "canopy_coverage": 0.15,
+      "is_asphalt_highway": true,
+      "urban_canyon_shadow": 0.10
+    },
+    {
+      "id": "E4",
+      "u": "N1",
+      "v": "N6",
+      "name": "Radial Road Shaded Connector",
+      "distance_m": 550,
+      "speed_limit_kmh": 30,
+      "canopy_coverage": 0.55,
+      "is_asphalt_highway": false,
+      "urban_canyon_shadow": 0.40
+    },
+    {
+      "id": "E5",
+      "u": "N6",
+      "v": "N5",
+      "name": "Central Park Shaded Perimeter",
+      "distance_m": 420,
+      "speed_limit_kmh": 25,
+      "canopy_coverage": 0.85,
+      "is_asphalt_highway": false,
+      "urban_canyon_shadow": 0.50
+    },
+    {
+      "id": "E6",
+      "u": "N5",
+      "v": "N4",
+      "name": "Janpath Heritage Tree Avenue",
+      "distance_m": 460,
+      "speed_limit_kmh": 30,
+      "canopy_coverage": 0.80,
+      "is_asphalt_highway": false,
+      "urban_canyon_shadow": 0.60
+    },
+    {
+      "id": "E7",
+      "u": "N4",
+      "v": "N10",
+      "name": "Tolstoy Marg Shaded Boulevard",
+      "distance_m": 500,
+      "speed_limit_kmh": 35,
+      "canopy_coverage": 0.75,
+      "is_asphalt_highway": false,
+      "urban_canyon_shadow": 0.45
+    },
+    {
+      "id": "E8",
+      "u": "N10",
+      "v": "N3",
+      "name": "KG Marg Shaded Alley",
+      "distance_m": 350,
+      "speed_limit_kmh": 30,
+      "canopy_coverage": 0.70,
+      "is_asphalt_highway": false,
+      "urban_canyon_shadow": 0.50
+    },
+    {
+      "id": "E9",
+      "u": "N4",
+      "v": "N9",
+      "name": "Janpath South Tree Canopy",
+      "distance_m": 680,
+      "speed_limit_kmh": 35,
+      "canopy_coverage": 0.85,
+      "is_asphalt_highway": false,
+      "urban_canyon_shadow": 0.40
+    },
+    {
+      "id": "E10",
+      "u": "N9",
+      "v": "N10",
+      "name": "Ashoka-KG Tree Link",
+      "distance_m": 620,
+      "speed_limit_kmh": 35,
+      "canopy_coverage": 0.78,
+      "is_asphalt_highway": false,
+      "urban_canyon_shadow": 0.35
+    },
+    {
+      "id": "E11",
+      "u": "N6",
+      "v": "N7",
+      "name": "Connaught Outer West Shaded Corridor",
+      "distance_m": 690,
+      "speed_limit_kmh": 30,
+      "canopy_coverage": 0.65,
+      "is_asphalt_highway": false,
+      "urban_canyon_shadow": 0.30
+    },
+    {
+      "id": "E12",
+      "u": "N7",
+      "v": "N8",
+      "name": "Baba Kharak Singh Neem Avenue",
+      "distance_m": 980,
+      "speed_limit_kmh": 40,
+      "canopy_coverage": 0.82,
+      "is_asphalt_highway": false,
+      "urban_canyon_shadow": 0.45
+    },
+    {
+      "id": "E13",
+      "u": "N8",
+      "v": "N9",
+      "name": "Ashoka Road Dense Canopy Corridor",
+      "distance_m": 520,
+      "speed_limit_kmh": 35,
+      "canopy_coverage": 0.90,
+      "is_asphalt_highway": false,
+      "urban_canyon_shadow": 0.50
+    },
+    {
+      "id": "E14",
+      "u": "N6",
+      "v": "N2",
+      "name": "Outer Circle East Link",
+      "distance_m": 650,
+      "speed_limit_kmh": 40,
+      "canopy_coverage": 0.25,
+      "is_asphalt_highway": true,
+      "urban_canyon_shadow": 0.15
+    },
+    {
+      "id": "E15",
+      "u": "N2",
+      "v": "N3",
+      "name": "Barakhamba South Commercial Arterial",
+      "distance_m": 700,
+      "speed_limit_kmh": 45,
+      "canopy_coverage": 0.12,
+      "is_asphalt_highway": true,
+      "urban_canyon_shadow": 0.10
+    }
+  ]
+}
